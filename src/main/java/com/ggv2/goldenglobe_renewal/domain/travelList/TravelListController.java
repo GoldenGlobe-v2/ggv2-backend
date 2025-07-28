@@ -2,6 +2,7 @@ package com.ggv2.goldenglobe_renewal.domain.travelList;
 
 import com.ggv2.goldenglobe_renewal.domain.travelList.travelListDTO.TravelListCreateRequest;
 import com.ggv2.goldenglobe_renewal.domain.travelList.travelListDTO.TravelListResponse;
+import com.ggv2.goldenglobe_renewal.domain.travelList.travelListDTO.TravelListUpdateRequest;
 import com.ggv2.goldenglobe_renewal.global.auth.CustomUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,16 @@ public class TravelListController {
   public ResponseEntity<List<TravelListResponse>> getMyTravelLists(@AuthenticationPrincipal CustomUser customUser) {
     List<TravelListResponse> response = travelListService.getTravelListsByUser(customUser.getUser().getId());
 
+    return ResponseEntity.ok(response);
+  }
+
+  @PutMapping("/{travelListId}")
+  public ResponseEntity<TravelListResponse> updateTravelList(
+      @PathVariable Long travelListId,
+      @RequestBody TravelListUpdateRequest request,
+      @AuthenticationPrincipal CustomUser customUser) {
+
+    TravelListResponse response = travelListService.updateTravelList(travelListId, request, customUser.getUser().getId());
     return ResponseEntity.ok(response);
   }
 }

@@ -1,5 +1,6 @@
 package com.ggv2.goldenglobe_renewal.domain.travelList;
 
+import com.ggv2.goldenglobe_renewal.domain.travelList.travelListDTO.TravelListUpdateRequest;
 import com.ggv2.goldenglobe_renewal.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -41,5 +42,13 @@ public class TravelList {
     this.endDate = endDate;
     this.budget = budget;
     this.user = user;
+  }
+
+  public void update(TravelListUpdateRequest request) {
+    this.country = request.country();
+    this.city = request.city();
+    this.startDate = request.startDate();
+    this.endDate = request.endDate();
+    this.budget = request.budget();
   }
 }
