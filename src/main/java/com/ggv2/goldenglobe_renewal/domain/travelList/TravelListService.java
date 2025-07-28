@@ -9,6 +9,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -32,5 +34,16 @@ public class TravelListService {
     TravelList savedTravelList = travelListRepository.save(travelList);
 
     return TravelListResponse.from(savedTravelList);
+  }
+
+  @Transactional(readOnly = true)
+  public List<TravelListResponse> getTravelListsByUser(Long userId) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+    return travelListRepository.findByUser(user)
+        .stream()
+        .map(TravelListResponse::from)
+        .toList();
   }
 }
