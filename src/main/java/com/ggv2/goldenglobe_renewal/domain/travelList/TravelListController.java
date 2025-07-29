@@ -44,4 +44,13 @@ public class TravelListController {
     TravelListResponse response = travelListService.updateTravelList(travelListId, request, customUser.getUser().getId());
     return ResponseEntity.ok(response);
   }
+
+  @DeleteMapping("/{travelListId}")
+  public ResponseEntity<String> deleteTravelList(
+      @PathVariable Long travelListId,
+      @AuthenticationPrincipal CustomUser customUser
+  ) {
+    travelListService.deleteTravelList(travelListId, customUser.getUser().getId());
+    return ResponseEntity.ok("여행 목록이 성공적으로 삭제되었습니다.");
+  }
 }

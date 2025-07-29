@@ -64,4 +64,18 @@ public class TravelListService {
     // 4. @Transactional에 의해 변경된 내용이 자동 저장되고, DTO로 변환하여 반환한다.
     return TravelListResponse.from(travelList);
   }
+
+  public void deleteTravelList(Long travelListId, Long userId) {
+    // 1. 여행 목록을 찾는다.
+    TravelList travelList = travelListRepository.findById(travelListId)
+        .orElseThrow(() -> new IllegalArgumentException("여행 목록을 찾을 수 없습니다."));
+
+    // 2. 소유주인지 확인한다.
+    if (!travelList.getUser().getId().equals(userId)) {
+      throw new SecurityException("여행 목록을 삭제할 권한이 없습니다.");
+    }
+
+    // 3. 삭제한다.
+    travelListRepository.delete(travelList);
+  }
 }
