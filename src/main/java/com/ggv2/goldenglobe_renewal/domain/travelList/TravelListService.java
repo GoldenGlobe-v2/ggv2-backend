@@ -1,12 +1,12 @@
 package com.ggv2.goldenglobe_renewal.domain.travelList;
 
+import com.ggv2.goldenglobe_renewal.domain.checkList.ChecklistService;
 import com.ggv2.goldenglobe_renewal.domain.travelList.travelListDTO.TravelListCreateRequest;
 import com.ggv2.goldenglobe_renewal.domain.travelList.travelListDTO.TravelListResponse;
 import com.ggv2.goldenglobe_renewal.domain.travelList.travelListDTO.TravelListUpdateRequest;
 import com.ggv2.goldenglobe_renewal.domain.user.User;
 import com.ggv2.goldenglobe_renewal.domain.user.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,7 @@ import java.util.List;
 public class TravelListService {
   private final TravelListRepository travelListRepository;
   private final UserRepository userRepository;
+  private final ChecklistService checklistService;
 
   public TravelListResponse createTravelList(TravelListCreateRequest request, Long userId) {
     User user = userRepository.findById(userId)
@@ -33,6 +34,7 @@ public class TravelListService {
         .build();
 
     TravelList savedTravelList = travelListRepository.save(travelList);
+    checklistService.createChecklist(savedTravelList);
 
     return TravelListResponse.from(savedTravelList);
   }
@@ -49,33 +51,22 @@ public class TravelListService {
   }
 
   public TravelListResponse updateTravelList(Long travelListId, TravelListUpdateRequest request, Long userId) {
-    // 1. 여행 목록을 찾는다.
     TravelList travelList = travelListRepository.findById(travelListId)
-        .orElseThrow(() -> new IllegalArgumentException("Travel list not found"));
+        .orElseThrow(() -> new IllegalArgumentException("해당 여행 목록을 찾을 수 없습니다."));
 
-    // 2. 현재 로그인한 사용자가 해당 여행 목록의 소유주인지 확인한다.
     if (!travelList.getUser().getId().equals(userId)) {
-      throw new SecurityException("You do not have permission to edit this travel list.");
+      throw new SecurityException("여행 목록 수정 권한이 없습니다.");
     }
-
-    // 3. 엔티티의 수정 메서드를 호출하여 값을 변경한다.
     travelList.update(request);
-
-    // 4. @Transactional에 의해 변경된 내용이 자동 저장되고, DTO로 변환하여 반환한다.
     return TravelListResponse.from(travelList);
   }
 
   public void deleteTravelList(Long travelListId, Long userId) {
-    // 1. 여행 목록을 찾는다.
     TravelList travelList = travelListRepository.findById(travelListId)
-        .orElseThrow(() -> new IllegalArgumentException("여행 목록을 찾을 수 없습니다."));
-
-    // 2. 소유주인지 확인한다.
+        .orElseThrow(() -> new IllegalArgumentException("해당 여행 목록을 찾을 수 없습니다."));
     if (!travelList.getUser().getId().equals(userId)) {
       throw new SecurityException("여행 목록을 삭제할 권한이 없습니다.");
     }
-
-    // 3. 삭제한다.
     travelListRepository.delete(travelList);
   }
 }
