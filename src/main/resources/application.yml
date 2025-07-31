@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    aws:
+      credentials:
+        access-key: AKIAZ2K64GO2DZPSQPG2
+        secret-key: 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
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: gg2.0
