@@ -77,4 +77,21 @@ public class ShareService {
     sharedList.updateColor(request.color());
   }
 
+  public void deleteShare(Long checklistId, Long ownerId, Long userIdToDelete) {
+    CheckList checkList = checklistRepository.findById(checklistId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 체크리스트를 찾을 수 없습니다."));
+
+    if (!checkList.getTravelList().getUser().getId().equals(ownerId)) {
+      throw new SecurityException("해당 체크리스트의 관리 권한이 없습니다.");
+    }
+
+    User userToDelete = userRepository.findById(userIdToDelete)
+        .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
+
+    SharedList sharedList = sharedListRepository.findByCheckListAndUser(checkList, userToDelete)
+        .orElseThrow(() -> new IllegalArgumentException("공유 정보를 찾을 수 없습니다."));
+
+    sharedListRepository.delete(sharedList);
+  }
+
 }

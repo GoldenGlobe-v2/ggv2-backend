@@ -48,4 +48,15 @@ public class ShareController {
     shareService.updateShareColor(checklistId, customUser.getUser().getId(), request);
     return ResponseEntity.ok("공유 색상이 변경되었습니다.");
   }
+
+  @DeleteMapping("/{userId}")
+  public ResponseEntity<String> deleteShare(
+      @PathVariable Long checklistId,
+      @PathVariable Long userId,
+      @AuthenticationPrincipal CustomUser customUser
+  ) {
+    shareService.deleteShare(checklistId, customUser.getUser().getId(), userId);
+
+    return ResponseEntity.ok("사용자 공유가 해제되었습니다.");
+  }
 }
