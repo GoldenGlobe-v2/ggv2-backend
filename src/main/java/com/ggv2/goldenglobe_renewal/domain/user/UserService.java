@@ -3,10 +3,14 @@ package com.ggv2.goldenglobe_renewal.domain.user;
 import com.ggv2.goldenglobe_renewal.domain.user.userDTO.SignUpRequestDto;
 import com.ggv2.goldenglobe_renewal.domain.user.userDTO.UserProfileResponse;
 import com.ggv2.goldenglobe_renewal.domain.user.userDTO.UserProfileUpdateRequest;
+import com.ggv2.goldenglobe_renewal.infra.s3.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @Transactional
@@ -14,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final S3Service s3Service;  //S3Service 주입
 
   // C(Create) - 회원가입
   public Long signUp(SignUpRequestDto requestDto) {
@@ -57,14 +62,14 @@ public class UserService {
   @Transactional(readOnly = true)
   public User findUserById(Long userId) {
     return userRepository.findById(userId)
-        .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다. id=" + userId));
+        .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다. ID: " + userId));
   }
 
   // R(Read) - 단일 사용자 조회 (핸드폰 번호 기준)
   @Transactional(readOnly = true)
   public User findUserByCellphone(String cellphone) {
     return userRepository.findByCellphone(cellphone)
-        .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다. cellphone=" + cellphone));
+        .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다. 핸드폰 번호: " + cellphone));
   }
 
 
@@ -85,6 +90,16 @@ public class UserService {
   }
 
   private String generateTemporaryPassword() {
-    return "tempPw123"; // 임시 비밀번호 생성 로직
+    return "임시비번123"; // 임시 비밀번호 생성 로직
+  }
+
+  public String updateProfileImage(Long userId, MultipartFile profileImage) throws IOException {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new IllegalArgumentException("해당하는 사용자를 찾을 수 없습니다."));
+    String imageUrl = s3Service.upload(profileImage, "profiles");
+
+    user.updateProfile(imageUrl);
+
+    return imageUrl;
   }
 }
