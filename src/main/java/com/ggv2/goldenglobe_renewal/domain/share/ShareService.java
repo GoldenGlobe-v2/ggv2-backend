@@ -49,7 +49,9 @@ public class ShareService {
         .orElseThrow(() -> new IllegalArgumentException("해당 체크리스트가 존재하지 않습니다."));
 
     boolean isOwner = checkList.getTravelList().getUser().getId().equals(requesterId);
-    boolean isSharedUser = sharedListRepository.existsByCheckListAndUser(checkList, new User(requesterId)); // User 객체를 임시로 생성하여 확인
+
+    // [수정] new User() 대신, ID를 직접 사용하는 방식으로 변경합니다.
+    boolean isSharedUser = sharedListRepository.existsByCheckListIdAndUserId(checklistId, requesterId);
 
     if (!isOwner && !isSharedUser) {
       throw new SecurityException("해당 체크리스트를 조회할 권한이 없습니다.");
@@ -61,5 +63,5 @@ public class ShareService {
         .map(SharedUserResponse::from)
         .toList();
   }
-  }
+
 }

@@ -12,7 +12,7 @@ public interface SharedListRepository extends JpaRepository<SharedList, Long> {
 
   Optional<CheckList> findByCheckListAndUser(CheckList checkList, User user);
 
-  Optional<SharedList> findByCheckListAndUser(CheckList checkList, User user);
-
   List<SharedList> findByCheckList(CheckList checkList);
+
+  boolean existsByCheckListIdAndUserId(Long checklistId, Long userId);
 }
