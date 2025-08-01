@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface SharedListRepository extends JpaRepository<SharedList, Long> {
   boolean existsByCheckListAndUser(CheckList checkList, User user);
 
-  Optional<CheckList> findByCheckListAndUser(CheckList checkList, User user);
+  Optional<SharedList> findByCheckListAndUser(CheckList checkList, User user);
 
   List<SharedList> findByCheckList(CheckList checkList);
 

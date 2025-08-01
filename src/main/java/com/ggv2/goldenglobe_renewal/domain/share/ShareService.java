@@ -2,6 +2,7 @@ package com.ggv2.goldenglobe_renewal.domain.share;
 
 import com.ggv2.goldenglobe_renewal.domain.checkList.CheckList;
 import com.ggv2.goldenglobe_renewal.domain.checkList.ChecklistRepository;
+import com.ggv2.goldenglobe_renewal.domain.share.shareDTO.ShareColorUpdateRequest;
 import com.ggv2.goldenglobe_renewal.domain.share.shareDTO.ShareRequest;
 import com.ggv2.goldenglobe_renewal.domain.share.shareDTO.SharedUserResponse;
 import com.ggv2.goldenglobe_renewal.domain.user.User;
@@ -9,7 +10,6 @@ import com.ggv2.goldenglobe_renewal.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -62,6 +62,19 @@ public class ShareService {
     return sharedLists.stream()
         .map(SharedUserResponse::from)
         .toList();
+  }
+
+  public void updateShareColor(Long checklistId, Long userId, ShareColorUpdateRequest request) {
+    CheckList checkList = checklistRepository.findById(checklistId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 체크리스트를 찾을 수 없습니다."));
+
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
+
+    SharedList sharedList = sharedListRepository.findByCheckListAndUser(checkList, user)
+        .orElseThrow(() -> new IllegalArgumentException("공유 정보를 찾을 수 없습니다."));
+
+    sharedList.updateColor(request.color());
   }
 
 }

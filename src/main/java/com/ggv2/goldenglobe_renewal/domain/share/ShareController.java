@@ -1,5 +1,6 @@
 package com.ggv2.goldenglobe_renewal.domain.share;
 
+import com.ggv2.goldenglobe_renewal.domain.share.shareDTO.ShareColorUpdateRequest;
 import com.ggv2.goldenglobe_renewal.domain.share.shareDTO.ShareRequest;
 import com.ggv2.goldenglobe_renewal.domain.share.shareDTO.SharedUserResponse;
 import com.ggv2.goldenglobe_renewal.global.auth.CustomUser;
@@ -36,5 +37,15 @@ public class ShareController {
     List<SharedUserResponse> response = shareService.getSharedUsers(checklistId, customUser.getUser().getId());
 
     return ResponseEntity.ok(response);
+  }
+
+  @PatchMapping
+  public ResponseEntity<String> updateShareColor(
+      @PathVariable Long checklistId,
+      @AuthenticationPrincipal CustomUser customUser,
+      @RequestBody ShareColorUpdateRequest request) {
+
+    shareService.updateShareColor(checklistId, customUser.getUser().getId(), request);
+    return ResponseEntity.ok("공유 색상이 변경되었습니다.");
   }
 }
