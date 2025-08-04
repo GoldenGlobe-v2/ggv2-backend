@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.Pattern;
+import com.ggv2.goldenglobe_renewal.domain.share.SharedList;
+import com.ggv2.goldenglobe_renewal.domain.travelList.TravelList;
+import java.util.List;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,8 +22,8 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;  // id BIGINT (PK)
 
-  @Column(nullable = false, length = 255)
-  private String name; // name VARCHAR(255)
+  @Column(nullable = false)
+  private String name;
 
   @Column(nullable = false, length = 60)  // BCrypt 해시 길이 고려
   private String password;
@@ -33,14 +36,12 @@ public class User {
   private LocalDate birth;
 
   @Column
-  private String profile; //파일은 AWS S3 같은 스토리지에 업로드하고, 데이터베이스에는 그 파일의 주소(URL)만 String 형태로 저장
-  // 'User'가 삭제될 때 관련된 'TravelList'도 함께 삭제되도록 설정
+  private String profile;
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<TravelList> travelLists = new ArrayList<>();
+  private final List<TravelList> travelLists = new ArrayList<>();
 
-  // 'User'가 삭제될 때 관련된 'SharedList' 정보도 함께 삭제되도록 설정
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<SharedList> sharedLists = new ArrayList<>();
+  private final List<SharedList> sharedLists = new ArrayList<>();
 
   @Builder
   public User(String name, String password, String cellphone, LocalDate birth, String profile) {
