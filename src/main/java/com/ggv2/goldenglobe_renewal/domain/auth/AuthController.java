@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "01. 인증 API", description = "사용자 회원가입 및 로그인/로그아웃")
+@Tag(name = "인증 API", description = "사용자 회원가입 및 로그인/로그아웃")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
