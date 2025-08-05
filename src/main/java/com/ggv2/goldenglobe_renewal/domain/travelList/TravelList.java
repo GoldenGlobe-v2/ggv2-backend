@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -28,14 +29,14 @@ public class TravelList {
   private LocalDate endDate;
 
   @Column(precision = 15, scale = 2)
-  private Double budget;
+  private BigDecimal budget;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   @Builder
-  public TravelList(String country, String city, LocalDate startDate, LocalDate endDate, Double budget, User user) {
+  public TravelList(String country, String city, LocalDate startDate, LocalDate endDate, BigDecimal budget, User user) {
     this.country = country;
     this.city = city;
     this.startDate = startDate;
