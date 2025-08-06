@@ -1,7 +1,6 @@
 package com.ggv2.goldenglobe_renewal.domain.listGroup;
 
 import com.ggv2.goldenglobe_renewal.domain.checkList.ChecklistService;
-import com.ggv2.goldenglobe_renewal.domain.listItem.ListItem;
 import com.ggv2.goldenglobe_renewal.domain.listItem.listItemDTO.ListItemCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
