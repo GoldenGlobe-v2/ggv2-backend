@@ -12,6 +12,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class S3Service {
+
   private final S3Template s3Template;
 
   @Value("${spring.cloud.aws.s3.bucket}")
@@ -19,7 +20,10 @@ public class S3Service {
 
   public String upload(MultipartFile multipartFile, String dir) throws IOException {
     String originalFilename = multipartFile.getOriginalFilename();
-    String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+    String extension = "";
+    if (originalFilename != null && originalFilename.contains(".")) {
+      extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+    }
 
     String randomFileName = UUID.randomUUID() + extension;
     String key = dir + "/" + randomFileName;
