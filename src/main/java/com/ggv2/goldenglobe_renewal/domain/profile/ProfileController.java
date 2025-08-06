@@ -15,13 +15,13 @@ import java.io.IOException;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/profiles")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ProfileController {
 
   private final UserService userService;
 
-  @PostMapping("/image")
+  @PostMapping("/users/me/profile-image")
   public ResponseEntity<Map<String, String>> uploadProfileImage(
       @AuthenticationPrincipal CustomUser customUser,
       @RequestParam("image") MultipartFile profileImage
