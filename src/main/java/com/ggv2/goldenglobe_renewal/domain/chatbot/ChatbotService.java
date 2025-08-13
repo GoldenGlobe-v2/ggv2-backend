@@ -1,7 +1,7 @@
 package com.ggv2.goldenglobe_renewal.domain.chatbot;
 
-import com.ggv2.goldenglobe_renewal.domain.chatbot.dto.ChatRequest;
-import com.ggv2.goldenglobe_renewal.domain.chatbot.dto.ChatResponse;
+import com.ggv2.goldenglobe_renewal.domain.chatbot.chatbotDTO.ChatRequest;
+import com.ggv2.goldenglobe_renewal.domain.chatbot.chatbotDTO.ChatResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
