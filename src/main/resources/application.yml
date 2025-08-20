@@ -36,4 +36,5 @@ jwt:
   refresh-token-validity-in-seconds: 604800
 logging:
   level:
-    org.springframework.security: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.orm.jdbc.bind: TRACE

@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -29,9 +30,9 @@ public class TravelListController {
   }
 
   @GetMapping
-  public ResponseEntity<List<TravelListResponse>> getMyTravelLists(@AuthenticationPrincipal CustomUser customUser) {
-    List<TravelListResponse> response = travelListService.getTravelListsByUser(customUser.getUser().getId());
-
+  public ResponseEntity<Page<TravelListResponse>> getMyTravelLists(
+      @AuthenticationPrincipal CustomUser customUser, Pageable pageable) {
+    Page<TravelListResponse> response = travelListService.getTravelListsByUser(customUser.getUser().getId(), pageable);
     return ResponseEntity.ok(response);
   }
 

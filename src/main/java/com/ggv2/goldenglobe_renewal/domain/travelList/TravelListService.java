@@ -9,7 +9,8 @@ import com.ggv2.goldenglobe_renewal.domain.user.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -39,15 +40,14 @@ public class TravelListService {
     return TravelListResponse.from(savedTravelList);
   }
 
+  // TravelListService.java
+
   @Transactional(readOnly = true)
-  public List<TravelListResponse> getTravelListsByUser(Long userId) {
+  public Page<TravelListResponse> getTravelListsByUser(Long userId, Pageable pageable) {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-    return travelListRepository.findByUserWithUser(user)
-        .stream()
-        .map(TravelListResponse::from)
-        .toList();
+    return travelListRepository.findByUser(user, pageable)
+        .map(TravelListResponse::from);
   }
 
   public TravelListResponse updateTravelList(Long travelListId, TravelListUpdateRequest request, Long userId) {
