@@ -44,7 +44,7 @@ public class TravelListService {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-    return travelListRepository.findByUser(user)
+    return travelListRepository.findByUserWithUser(user)
         .stream()
         .map(TravelListResponse::from)
         .toList();
