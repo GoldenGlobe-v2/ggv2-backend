@@ -23,8 +23,7 @@ public class ChatLog {
   @Column(nullable = false, length = 10)
   private Role role; // USER / BOT
 
-  @Lob
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "text")
   private String message;
 
   @Column(nullable = false)
