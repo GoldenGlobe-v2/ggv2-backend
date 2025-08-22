@@ -38,3 +38,7 @@ logging:
   level:
     org.springframework.security: INFO
     org.hibernate.orm.jdbc.bind: TRACE
+    com.ggv2.goldenglobe_renewal.domain.chatbot: DEBUG
+ai:
+  server:
+    url: http://localhost:8000

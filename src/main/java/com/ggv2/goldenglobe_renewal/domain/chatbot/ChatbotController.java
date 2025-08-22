@@ -19,8 +19,8 @@ public class ChatbotController {
       @PathVariable Long travelListId,
       @AuthenticationPrincipal CustomUser customUser,
       @RequestBody ChatRequest request) {
-
-    ChatResponse response = chatbotService.getChatbotResponse(travelListId, customUser.getUser().getId(), request);
-    return ResponseEntity.ok(response);
+    Long userId = customUser.getUser().getId();
+    ChatResponse resp = chatbotService.getChatbotResponse(travelListId, userId, request);
+    return ResponseEntity.ok(resp);
   }
 }
