@@ -32,7 +32,7 @@ spring:
       max-request-size: 10MB    # 전체 요청의 최대 크기
 jwt:
   secret: K3fLxByYYb7nTMTz4j/JvyuBqvv7sC88XhqgG/7aT7s=
-  access-token-validity-in-seconds: 1800
+  access-token-validity-in-seconds: 7200
   refresh-token-validity-in-seconds: 604800
 logging:
   level:

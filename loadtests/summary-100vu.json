@@ -1,0 +1,215 @@
+{
+    "metrics": {
+        "http_req_blocked": {
+            "avg": 0.02257585375652872,
+            "min": 0,
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0.6921550000000116,
+            "max": 21.7526
+        },
+        "http_req_duration{endpoint:chat}": {
+            "min": 0.6402,
+            "med": 23.493699999999997,
+            "p(90)": 28.78503,
+            "p(95)": 32.53355,
+            "p(99)": 157.79287299999913,
+            "max": 2873.455,
+            "avg": 29.03242028927271,
+            "thresholds": {
+                "p(95)<900": false,
+                "p(99)<1500": false
+            }
+        },
+        "http_req_tls_handshaking": {
+            "p(99)": 0,
+            "max": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0
+        },
+        "http_req_sending": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0.6167,
+            "max": 2.015,
+            "avg": 0.02198742466854158,
+            "min": 0,
+            "med": 0
+        },
+        "chat_duration_ms": {
+            "p(99)": 158.45999999999913,
+            "max": 2873,
+            "avg": 29.150060265166733,
+            "min": 0,
+            "med": 24,
+            "p(90)": 29,
+            "p(95)": 33
+        },
+        "vus": {
+            "max": 100,
+            "value": 4,
+            "min": 2
+        },
+        "vus_max": {
+            "min": 100,
+            "max": 100,
+            "value": 100
+        },
+        "http_req_duration": {
+            "med": 10.5108,
+            "p(90)": 26.862450000000003,
+            "p(95)": 29.223675,
+            "p(99)": 103.8,
+            "max": 2873.455,
+            "avg": 26.9079702892728,
+            "min": 0.3201
+        },
+        "iterations": {
+            "count": 4978,
+            "rate": 49.60301564652495
+        },
+        "http_req_waiting": {
+            "med": 9.255,
+            "p(90)": 26.2377,
+            "p(95)": 28.53445,
+            "p(99)": 99.5686,
+            "max": 2871.8418,
+            "avg": 25.931932030936117,
+            "min": 0.3011
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 9956,
+            "thresholds": {
+                "rate<0.01": false
+            },
+            "value": 0
+        },
+        "http_req_duration{expected_response:true}": {
+            "avg": 26.9079702892728,
+            "min": 0.3201,
+            "med": 10.5108,
+            "p(90)": 26.862450000000003,
+            "p(95)": 29.223675,
+            "p(99)": 103.8,
+            "max": 2873.455
+        },
+        "checks": {
+            "passes": 14934,
+            "fails": 0,
+            "value": 1
+        },
+        "http_req_connecting": {
+            "max": 6.9182,
+            "avg": 0.01357899758939333,
+            "min": 0,
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0.5374050000000021
+        },
+        "group_duration": {
+            "p(90)": 27.083399999999997,
+            "p(95)": 29.4594,
+            "p(99)": 103.8,
+            "max": 2874.5664,
+            "avg": 27.127547599437488,
+            "min": 0.355,
+            "med": 10.738299999999999
+        },
+        "http_reqs": {
+            "count": 9956,
+            "rate": 99.2060312930499
+        },
+        "http_req_duration{endpoint:travels}": {
+            "p(90)": 8.70516,
+            "p(95)": 11.508289999999999,
+            "p(99)": 62.45810899999583,
+            "max": 2660.0687,
+            "avg": 24.783520289272808,
+            "min": 0.3201,
+            "med": 5.0109,
+            "thresholds": {
+                "p(95)<300": false
+            }
+        },
+        "http_req_receiving": {
+            "avg": 0.9540508336681378,
+            "min": 0,
+            "med": 0.5218,
+            "p(90)": 2.79335,
+            "p(95)": 4.4213499999999994,
+            "p(99)": 6.50399,
+            "max": 42.0657
+        },
+        "iteration_duration": {
+            "med": 1029.1663,
+            "p(90)": 1037.24675,
+            "p(95)": 1044.37499,
+            "p(99)": 2831.5558999999566,
+            "max": 3990.284,
+            "avg": 1054.8034485335488,
+            "min": 1004.0227
+        },
+        "data_sent": {
+            "count": 3361364,
+            "rate": 33494.132399691785
+        },
+        "data_received": {
+            "count": 5601238,
+            "rate": 55813.23747567499
+        }
+    },
+    "setup_data": {
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAxMjM0NTY3OCIsImF1dGgiOiJST0xFX1VTRVIiLCJpYXQiOjE3NTYwOTgzNjQsImV4cCI6MTc1NjEwNTU2NH0.J0z90_YyNVpY3P4TgR3th9QhED9TA3ZpoumphEd64oc"
+    },
+    "root_group": {
+        "checks": {},
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {
+                "travels-list": {
+                    "path": "::travels-list",
+                    "id": "f3de776c74fce4705853c71946615569",
+                    "groups": {},
+                    "checks": {
+                            "travels 200": {
+                                "name": "travels 200",
+                                "path": "::travels-list::travels 200",
+                                "id": "a7fd414d3071d6c33c4d42676c1352f3",
+                                "passes": 4978,
+                                "fails": 0
+                            }
+                        },
+                    "name": "travels-list"
+                },
+                "chat": {
+                    "path": "::chat",
+                    "id": "f7351fb60db1abaf2143352b6cfb2be5",
+                    "groups": {},
+                    "checks": {
+                            "chat 200": {
+                                "name": "chat 200",
+                                "path": "::chat::chat 200",
+                                "id": "99d54d5b54fea309d98b5021f6e28b6b",
+                                "passes": 4978,
+                                "fails": 0
+                            },
+                            "chat has answer": {
+                                "name": "chat has answer",
+                                "path": "::chat::chat has answer",
+                                "id": "a11c2dc79477dbc8ff273632c0872d09",
+                                "passes": 4978,
+                                "fails": 0
+                            }
+                        },
+                    "name": "chat"
+                }
+            }
+    }
+}

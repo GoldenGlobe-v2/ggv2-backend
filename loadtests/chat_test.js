@@ -1,21 +1,25 @@
 import http from 'k6/http';
 import { check, sleep, group } from 'k6';
-import { Trend } from 'k6/metrics';
+import { Trend, Counter } from 'k6/metrics';
+import exec from 'k6/execution';
+
+const reqs_chat    = new Counter('reqs_chat');
+const reqs_travels = new Counter('reqs_travels');
 
 export const options = {
   scenarios: {
     ramp_load: {
       executor: 'ramping-vus',
       stages: [
-        { duration: '20s', target: 5 },
-        { duration: '1m',  target: 20 },
+        { duration: '20s', target: 100 },
+        { duration: '1m',  target: 100 },
         { duration: '20s', target: 0 },
       ],
     },
   },
   thresholds: {
     'http_req_failed': ['rate<0.01'],
-    'http_req_duration{endpoint:chat}': ['p(95)<900', 'p(99)<1500'],
+    'http_req_duration{endpoint:chat}': ['p(95)<900','p(99)<1500'],
     'http_req_duration{endpoint:travels}': ['p(95)<300'],
   },
   summaryTrendStats: ['avg','min','med','p(90)','p(95)','p(99)','max'],
@@ -26,7 +30,6 @@ const TRAVEL_ID = __ENV.TRAVEL_ID || '2';
 const chatDuration = new Trend('chat_duration_ms');
 
 function tryParseToken(res) {
-  // ⚠️ 네 로그인 응답 JSON에 맞게 키를 정해줘
   return res.json('accessToken') || res.json('access_token') || res.json('token');
 }
 
@@ -41,7 +44,7 @@ export function setup() {
   const res = http.post(loginUrl, payload, { headers: { 'Content-Type': 'application/json' } });
   check(res, { 'login 200': (r) => r.status === 200 });
   const token = tryParseToken(res);
-  if (!token) throw new Error('로그인 토큰 파싱 실패: -e TOKEN=... 또는 파싱 키 수정 필요');
+  if (!token) throw new Error('로그인 토큰 파싱 실패');
   return { token };
 }
 
@@ -54,6 +57,8 @@ export default function (data) {
   group('travels-list', () => {
     const r = http.get(`${BASE_URL}/api/travels`, { headers, tags: { endpoint: 'travels' } });
     check(r, { 'travels 200': (resp) => resp.status === 200 });
+    // ✅ 여기서 카운트
+    reqs_travels.add(1);
   });
 
   group('chat', () => {
@@ -64,7 +69,10 @@ export default function (data) {
       '수하물 규정 알려줘',
       '체크인 시간은 언제야?',
     ];
-    const q = questions[Math.floor(Math.random() * questions.length)];
+    let q = questions[Math.floor(Math.random() * questions.length)];
+    if (__ENV.CHAT_MISS === '1') {
+      q = `${q} #${exec.scenario.iterationInTest}`;
+    }
     const body = JSON.stringify({ question: q });
 
     const t0 = Date.now();
@@ -77,11 +85,13 @@ export default function (data) {
       'chat 200': (resp) => resp.status === 200,
       'chat has answer': (resp) => !!resp.json('answer'),
     });
+    // ✅ 여기서 카운트
+    reqs_chat.add(1);
   });
 
-  sleep(1);
+  sleep(Number(__ENV.THINK || 1));
 }
 
 export function handleSummary(data) {
-  return { 'summary.json': JSON.stringify(data, null, 2) };
+  return { 'k6-local-summary.json': JSON.stringify(data, null, 2) };
 }
